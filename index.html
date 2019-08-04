@@ -84,13 +84,16 @@
             </div>
 
             <div class="row">
-              <button id="allPerms" class="btn-small waves-effect waves-ligth purple" style="margin:0px 20px 10px 20px;">
-                Request All
+              <button id="allPerms" class="btn-small waves-effect waves-light purple" style="margin:0px 20px 10px 20px;">
+                All Permissions
               </button>
-              <button id="readWrite" class="btn-small waves-effect waves-ligth purple" style="margin:0px 20px 10px 20px;">
+              <button id="readWrite" class="btn-small waves-effect waves-light purple" style="margin:0px 20px 10px 20px;">
                 Read & Write
               </button>
-              <button id="enable" class="btn-small waves-effect waves-ligth teal" style="margin:0px 20px 10px 20px;">
+              <button id="autoTransact" class="btn-small waves-effect waves-light purple" style="margin:0px 20px 10px 20px;">
+                Send Transactions
+              </button>
+              <button id="enable" class="btn-small waves-effect waves-light teal" style="margin:0px 20px 10px 20px;">
                 Enable
               </button>
             </div>
@@ -100,8 +103,18 @@
             </div>
 
             <div class="row">
-              <button id="read" class="btn-small waves-effect waves-ligth purple" style="margin:0px 20px 0px 20px;">
+              <button id="read" class="btn-small waves-effect waves-light purple" style="margin:0px 20px 0px 20px;">
                 Read Profile
+              </button>
+            </div>
+
+            <div class="row">
+              <form id="autoTransactForm">
+                <input id="autoTransactInput" style="margin:0px 20px; width: 94%" placeholder="Recipient Address"></input>
+                <input type="submit" style="visibility: hidden; position: absolute" />
+              </form>
+              <button id="autoTransactButton" class="btn-small waves-effect waves-light purple" style="margin:20px 20px 0px 20px;">
+                Send 1 Ether
               </button>
             </div>
 
@@ -110,17 +123,18 @@
                 <input id="writeToProfileInput" style="margin:0px 20px; width: 94%" placeholder="Your Name Here"></input>
                 <input type="submit" style="visibility: hidden; position: absolute" />
               </form>
-              <button id="writeToProfileButton" class="btn-small waves-effect waves-ligth purple" style="margin:20px 20px 0px 20px;">
+              <button id="writeToProfileButton" class="btn-small waves-effect waves-light purple" style="margin:20px 20px 0px 20px;">
                 Write to Profile
               </button>
             </div>
+
             <div class="row">
                 <form id="customCallForm">
                   <input id="customCallMethod" style="margin:0px 20px; width: 46%" placeholder="Method"></input>
                   <input id="customCallParams" style="margin:0px 0 0 0px; width: 46%" placeholder="Params"></input>
                   <input type="submit" style="visibility: hidden; position: absolute" />
                 </form>
-                <button id="customCallButton" class="btn-small waves-effect waves-ligth purple" style="margin:20px 20px 10px 20px;">
+                <button id="customCallButton" class="btn-small waves-effect waves-light purple" style="margin:20px 20px 10px 20px;">
                   Make Call
                 </button>
               </div>
@@ -153,9 +167,10 @@
 
     allPerms.addEventListener('click', function() {
       requestPerms({
+          eth_accounts: {},
           readYourProfile: {},
           writeToYourProfile: {},
-          eth_accounts: {},
+          eth_autoTransact: {},
         },
         true,
       )
@@ -170,9 +185,21 @@
       )
     })
 
+    autoTransact.addEventListener('click', function() {
+      requestPerms({
+          eth_accounts: {},
+          eth_autoTransact: {},
+        },
+        true,
+      )
+    })
+
     enable.addEventListener('click', requestAccounts)
 
     read.addEventListener('click', readProfile)
+
+    autoTransactButton.addEventListener('click', sendEther)
+    autoTransactForm.addEventListener('submit', sendEther)
 
     writeToProfileButton.addEventListener('click', writeProfile)
     writeToProfileForm.addEventListener('submit', writeProfile)
@@ -218,6 +245,31 @@
         if (readWhenDone) readProfile()
       })
       .catch(error => showError(error))
+    }
+
+    async function sendEther (event) {
+      event.preventDefault()
+      const to = autoTransactInput.value
+      // const from = await ethereum.send('eth_accounts').result[0]
+      const response = await ethereum.send('eth_accounts')
+      if (!Array.isArray(response.result) || response.result.length === 0) {
+        showError(new Error('No accounts available.'))
+        autoTransactInput.value = ''
+        return
+      }
+      const from = response.result[0]
+      ethereum.send('eth_autoTransact', [{
+        from, to,
+        value: '0xde0b6b3a7640000', // 1 ether
+        gasPrice: '0xee6b28000', // 32 gwei for solid speed
+      }])
+      .then(result => {
+        console.log('eth_autoTransact:', result)
+      })
+      .catch(error => {
+        showError(error)
+      })
+      autoTransactInput.value = ''
     }
 
     function readProfile (displayError = true) {
