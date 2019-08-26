@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>Permissions Adventure</title>
+    <title>Permissions Odyssee</title>
     <link rel="shortcut icon" href="./favicon.ico">
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -12,8 +12,8 @@
     <link href="./css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   </head>
 
-  <body class="grey lighten-5">
-    <nav class="purple" role="navigation">
+  <body class="grey lighten-4">
+    <nav class="amber" role="navigation">
       <div class="nav-wrapper container">
         <a class="row" style="display: flex; align-items: center" href="/">
           <img
@@ -21,7 +21,7 @@
             class="left"
             style="max-height:50px; margin: 0; margin: 7px 10px 0px 0px"
           />
-          <h4 class="left" style="vertical-align: center; margin: 5px 0px 0px 10px">Permissions Adventure</h4>
+          <h4 class="left" style="vertical-align: center; margin: 5px 0px 0px 10px">Permissions Odyssee</h4>
         </a>
       </div>
     </nav>
@@ -29,7 +29,7 @@
 
       <div class="section">
         <div class="row">
-          <div class="col l12 card grey lighten-5 left-align">
+          <div class="col l12 card grey lighten-4 left-align">
 
             <div class="row">
               <div class="col l4" style="padding-left:0">
@@ -38,7 +38,7 @@
                 </h5>
               </div>
               <div class="col l7" style="padding-left:0">
-                <h5 id="statusMessage" class="teal-text" style="margin:20px 0px 0px 20px;">
+                <h5 id="statusMessage" class="deep-orange-text" style="margin:20px 0px 0px 20px;">
                   Please log in to continue.
                 </h5>
               </div>
@@ -51,7 +51,7 @@
                 </h5>
               </div>
               <div class="col l7" style="padding-left:0">
-                <h5 id="userStatus" class="teal-text" style="margin:20px 0px 0px 20px;">
+                <h5 id="userStatus" class="deep-orange-text" style="margin:20px 0px 0px 20px;">
                   Unknown
                 </h5>
               </div>
@@ -64,14 +64,14 @@
                 </h5>
               </div>
               <div class="col l7" style="padding-left:0">
-                <h5 id="accountAddress" class="teal-text" style="margin:20px 0px 0px 20px;">
+                <h5 id="accountAddress" class="deep-orange-text" style="margin:20px 0px 0px 20px;">
                   Unknown
                 </h5>
               </div>
             </div>
           </div>
 
-          <div class="col l12 card grey lighten-5 left-align">
+          <div class="col l12 card grey lighten-4 left-align">
 
             <div class="row">
               <h5 style="margin:20px 20px 0px 20px;">
@@ -84,16 +84,16 @@
             </div>
 
             <div class="row">
-              <button id="allPerms" class="btn-small waves-effect waves-light purple" style="margin:0px 20px 10px 20px;">
+              <button id="allPerms" class="btn-small waves-effect waves-light amber" style="margin:0px 20px 10px 20px;">
                 All Permissions
               </button>
-              <button id="readWrite" class="btn-small waves-effect waves-light purple" style="margin:0px 20px 10px 20px;">
+              <button id="readWrite" class="btn-small waves-effect waves-light amber" style="margin:0px 20px 10px 20px;">
                 Read & Write
               </button>
-              <button id="autoTransact" class="btn-small waves-effect waves-light purple" style="margin:0px 20px 10px 20px;">
+              <button id="autoTransact" class="btn-small waves-effect waves-light amber" style="margin:0px 20px 10px 20px;">
                 Send Transactions
               </button>
-              <button id="enable" class="btn-small waves-effect waves-light teal" style="margin:0px 20px 10px 20px;">
+              <button id="enable" class="btn-small waves-effect waves-light deep-orange" style="margin:0px 20px 10px 20px;">
                 Enable
               </button>
             </div>
@@ -103,7 +103,7 @@
             </div>
 
             <div class="row">
-              <button id="read" class="btn-small waves-effect waves-light purple" style="margin:0px 20px 0px 20px;">
+              <button id="read" class="btn-small waves-effect waves-light amber" style="margin:0px 20px 0px 20px;">
                 Read Profile
               </button>
             </div>
@@ -113,7 +113,7 @@
                 <input id="autoTransactInput" style="margin:0px 20px; width: 94%" placeholder="Recipient Address"></input>
                 <input type="submit" style="visibility: hidden; position: absolute" />
               </form>
-              <button id="autoTransactButton" class="btn-small waves-effect waves-light purple" style="margin:20px 20px 0px 20px;">
+              <button id="autoTransactButton" class="btn-small waves-effect waves-light amber" style="margin:20px 20px 0px 20px;">
                 Send 1 Ether
               </button>
             </div>
@@ -123,7 +123,7 @@
                 <input id="writeToProfileInput" style="margin:0px 20px; width: 94%" placeholder="Your Name Here"></input>
                 <input type="submit" style="visibility: hidden; position: absolute" />
               </form>
-              <button id="writeToProfileButton" class="btn-small waves-effect waves-light purple" style="margin:20px 20px 0px 20px;">
+              <button id="writeToProfileButton" class="btn-small waves-effect waves-light amber" style="margin:20px 20px 0px 20px;">
                 Write to Profile
               </button>
             </div>
@@ -134,7 +134,7 @@
                   <input id="customCallParams" style="margin:0px 0 0 0px; width: 46%" placeholder="Params"></input>
                   <input type="submit" style="visibility: hidden; position: absolute" />
                 </form>
-                <button id="customCallButton" class="btn-small waves-effect waves-light purple" style="margin:20px 20px 10px 20px;">
+                <button id="customCallButton" class="btn-small waves-effect waves-light amber" style="margin:20px 20px 10px 20px;">
                   Make Call
                 </button>
               </div>
@@ -213,8 +213,7 @@
       ethereum.send('eth_requestAccounts')
       .then(result => {
         console.log('eth_requestAccounts:', result)
-        // accountAddress.innerText = getDisplayAddress(result[0])
-        accountAddress.innerText = result[0]
+        accountAddress.innerText = getDisplayAddress(result[0])
         statusMessage.innerText = 'Successfully retrieved account.'
       })
       .catch(error => {
@@ -226,8 +225,7 @@
       return ethereum.send('eth_accounts')
       .then(result => {
         console.log('eth_accounts:', result)
-        // accountAddress.innerText = getDisplayAddress(result[0] || result.result[0])
-        accountAddress.innerText = result[0] || result.result[0]
+        accountAddress.innerText = getDisplayAddress(result[0] || result.result[0])
       })
       .catch(error => {
         accountAddress.innerText = 'Unknown'
@@ -241,8 +239,7 @@
         console.log('wallet_requestPermissions:', result)
         for (let perm of result.result) {
           if (perm.parentCapability === 'eth_accounts') {
-            // accountAddress.innerText = getDisplayAddress(perm.caveats[0].value[0])
-            accountAddress.innerText = perm.caveats[0].value[0]
+            accountAddress.innerText = getDisplayAddress(perm.caveats[0].value[0])
           }
         }
         if (readWhenDone) readProfile()

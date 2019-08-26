@@ -10,3 +10,15 @@ Ensure you are using [the LoginPerSite branch](
 To serve locally, use `npm install && npm run serve`.
 
 To publish to GitHub Pages, use `npm run publish`.
+
+### colors
+
+**Scheme 1**
+Primary: `purple`
+Secondary: `teal`
+Tertiary: `grey lighten-5`
+
+**Scheme 2**
+Primary: `amber`
+Secondary: `deep-orange`
+Tertiary: `grey lighten-4`
