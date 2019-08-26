@@ -147,7 +147,7 @@
     else {
       ethereum.send('wallet_getPermissions')
       .then(res => {
-        console.log(res)
+        console.log('wallet_getPermissions:', res)
         Array.isArray(res.result) && res.result.forEach(p => {
           if (p.parentCapability === 'readYourProfile') readProfile(false)
           if (p.parentCapability === 'eth_accounts') getAccounts(false)
