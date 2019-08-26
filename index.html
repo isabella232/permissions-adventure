@@ -145,8 +145,15 @@
     window.readProfile = readProfile
     if (!ethereum) throw new Error('no window.ethereum')
     else {
-      readProfile(false)
-      getAccounts(false)
+      ethereum.send('wallet_getPermissions')
+      .then(res => {
+        console.log(res)
+        Array.isArray(res.result) && res.result.forEach(p => {
+          if (p.parentCapability === 'readYourProfile') readProfile(false)
+          if (p.parentCapability === 'eth_accounts') getAccounts(false)
+        })
+      })
+      .catch(error => showError(error))
     }
 
     /** ADD LISTENERS **/
