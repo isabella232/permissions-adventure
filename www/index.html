@@ -47,19 +47,6 @@
             <div class="row">
               <div class="col l4" style="padding-left:0">
                 <h5 class="left" style="margin:20px 20px 0px 20px;">
-                  User
-                </h5>
-              </div>
-              <div class="col l7" style="padding-left:0">
-                <h5 id="userStatus" class="teal-text" style="margin:20px 0px 0px 20px;">
-                  Unknown
-                </h5>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col l4" style="padding-left:0">
-                <h5 class="left" style="margin:20px 20px 0px 20px;">
                   Account
                 </h5>
               </div>
@@ -84,11 +71,8 @@
             </div>
 
             <div class="row">
-              <button id="allPerms" class="btn-small waves-effect waves-ligth purple" style="margin:0px 20px 10px 20px;">
-                Request All
-              </button>
-              <button id="readWrite" class="btn-small waves-effect waves-ligth purple" style="margin:0px 20px 10px 20px;">
-                Read & Write
+              <button id="eth_accounts" class="btn-small waves-effect waves-ligth purple" style="margin:0px 20px 10px 20px;">
+                Request eth_accounts
               </button>
               <button id="enable" class="btn-small waves-effect waves-ligth teal" style="margin:0px 20px 10px 20px;">
                 Enable
@@ -99,21 +83,6 @@
               <h6 style="margin:20px 20px 0px 20px;">Method Calls</h6>
             </div>
 
-            <div class="row">
-              <button id="read" class="btn-small waves-effect waves-ligth purple" style="margin:0px 20px 0px 20px;">
-                Read Profile
-              </button>
-            </div>
-
-            <div class="row">
-              <form id="writeToProfileForm">
-                <input id="writeToProfileInput" style="margin:0px 20px; width: 94%" placeholder="Your Name Here"></input>
-                <input type="submit" style="visibility: hidden; position: absolute" />
-              </form>
-              <button id="writeToProfileButton" class="btn-small waves-effect waves-ligth purple" style="margin:20px 20px 0px 20px;">
-                Write to Profile
-              </button>
-            </div>
             <div class="row">
                 <form id="customCallForm">
                   <input id="customCallMethod" style="margin:0px 20px; width: 46%" placeholder="Method"></input>
@@ -142,29 +111,17 @@
 
     /** INIT **/
 
-    window.readProfile = readProfile
     if (!ethereum) throw new Error('no window.ethereum')
-    else {
-      readProfile(false)
-      getAccounts(false)
-    }
+
+    ethereum.on('accountsChanged', accounts => {
+      console.log(`accountsChanged:`, accounts)
+    })
 
     /** ADD LISTENERS **/
 
-    allPerms.addEventListener('click', function() {
+    eth_accounts.addEventListener('click', function() {
       requestPerms({
-          readYourProfile: {},
-          writeToYourProfile: {},
           eth_accounts: {},
-        },
-        true,
-      )
-    })
-
-    readWrite.addEventListener('click', function() {
-      requestPerms({
-          readYourProfile: {},
-          writeToYourProfile: {},
         },
         true,
       )
@@ -172,18 +129,13 @@
 
     enable.addEventListener('click', requestAccounts)
 
-    read.addEventListener('click', readProfile)
-
-    writeToProfileButton.addEventListener('click', writeProfile)
-    writeToProfileForm.addEventListener('submit', writeProfile)
-
     customCallButton.addEventListener('click', customCall)
     customCallForm.addEventListener('submit', customCall)
 
     /** FUNCTIONS **/
 
     function requestAccounts() {
-      ethereum.send('eth_requestAccounts')
+      ethereum.enable()
       .then(result => {
         console.log('eth_requestAccounts:', result)
         accountAddress.innerText = getDisplayAddress(result[0])
@@ -198,53 +150,30 @@
       return ethereum.send('eth_accounts')
       .then(result => {
         console.log('eth_accounts:', result)
-        accountAddress.innerText = getDisplayAddress(result[0] || result.result[0])
+        accountAddress.innerText = getDisplayAddress(result[0])
       })
       .catch(error => {
-        accountAddress.innerText = 'Unknown'
-        if (displayError) showError(error)
+        if (error.code === 4100) {
+          requestAccounts()
+        } else {
+          accountAddress.innerText = 'Unknown'
+          if (displayError) showError(error)
+        }
       })
     }
 
-    async function requestPerms (perms, readWhenDone) {
+    async function requestPerms (perms) {
       ethereum.send('wallet_requestPermissions', [perms])
       .then(result => {
         console.log('wallet_requestPermissions:', result)
-        for (let perm of result.result) {
+        for (let perm of result) {
           if (perm.parentCapability === 'eth_accounts') {
+            statusMessage.innerText = 'Successfully retrieved account.'
             accountAddress.innerText = getDisplayAddress(perm.caveats[0].value[0])
           }
         }
-        if (readWhenDone) readProfile()
       })
       .catch(error => showError(error))
-    }
-
-    function readProfile (displayError = true) {
-      ethereum.send('readYourProfile', [])
-      .then(result => {
-        console.log('readYourProfile:', result)
-        userStatus.innerText = result.result.name
-        statusMessage.innerText = 'Welcome!'
-      })
-      .catch(error => {
-        userStatus.innerText = 'Unknown'
-        if (displayError) showError(error)
-      })
-    }
-
-    function writeProfile (event) {
-      event.preventDefault()
-      const name = writeToProfileInput.value
-      ethereum.send('writeToYourProfile', ['name', name])
-      .then(result => {
-        console.log('writeToYourProfile:', result)
-        readProfile()
-      })
-      .catch(error => {
-        showError(error)
-      })
-      writeToProfileInput.value = ''
     }
 
     function customCall (event) {
