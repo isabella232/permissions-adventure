@@ -101,13 +101,31 @@
     </div>
   </body>
 
-  <!--  Scripts-->
+  <!--  Scripts -->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="./js/materialize.js"></script>
   <script src="./js/materialize-init.js"></script>
+  <!-- Pick a convenience library below to test -->
+  <!-- <script src="https://raw.githubusercontent.com/ethereum/web3.js/0.20.7/dist/web3.min.js"></script> -->
+  <!-- <script src="https://raw.githubusercontent.com/ethereum/web3.js/0.20.7/dist/web3.js"></script> -->
+  <!-- <script src="https://unpkg.com/web3@1.2.2/dist/web3.min.js"></script> -->
+  <!-- <script src="https://unpkg.com/ethers@4.0.39/dist/ethers.min.js"></script> -->
   <script>
 
     const ethereum = window.ethereum
+
+    //
+    // convenience libraries 
+    //
+
+    // web3.js
+    // const web3 = new Web3(ethereum)
+    // console.log(web3)
+
+    // ethers
+    // let provider = new ethers.providers.Web3Provider(ethereum)
+    // console.log(provider)
+    // let signer = provider.getSigner()
 
     /** INIT **/
 
