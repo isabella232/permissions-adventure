@@ -74,7 +74,10 @@
               <button id="eth_accounts" class="btn-small waves-effect waves-ligth purple" style="margin:0px 20px 10px 20px;">
                 Request eth_accounts
               </button>
-              <button id="enable" class="btn-small waves-effect waves-ligth teal" style="margin:0px 20px 10px 20px;">
+              <button id="connect" class="btn-small waves-effect waves-ligth teal" style="margin:0px 20px 10px 20px;">
+                Connect
+              </button>
+              <button id="enable" class="btn-small waves-effect waves-ligth grey" style="margin:0px 20px 10px 20px;">
                 Enable
               </button>
             </div>
@@ -118,14 +121,16 @@
     // convenience libraries 
     //
 
-    // web3.js
+    // // web3.js
     // const web3 = new Web3(ethereum)
     // console.log(web3)
 
-    // ethers
+    // // ethers
     // let provider = new ethers.providers.Web3Provider(ethereum)
     // console.log(provider)
     // let signer = provider.getSigner()
+    // signer.signMessage('login')
+    // .then(console.log)
 
     /** INIT **/
 
@@ -145,15 +150,17 @@
       )
     })
 
-    enable.addEventListener('click', requestAccounts)
+    connect.addEventListener('click', () => requestAccounts('send', 'eth_requestAccounts'))
+
+    enable.addEventListener('click', () => requestAccounts('enable'))
 
     customCallButton.addEventListener('click', customCall)
     customCallForm.addEventListener('submit', customCall)
 
     /** FUNCTIONS **/
 
-    function requestAccounts() {
-      ethereum.enable()
+    function requestAccounts(method, params) {
+      ethereum[method](params)
       .then(result => {
         console.log('eth_requestAccounts:', result)
         accountAddress.innerText = getDisplayAddress(result[0])
